@@ -7,13 +7,13 @@ edition = "2021"
 members = ["io"]
 
 [dependencies]
-gstd = { git = "https://github.com/gear-tech/gear.git", tag = "v1.4.1" }
+gstd = { git = "https://github.com/gear-tech/gear.git", tag = "v1.7.1" }
 pebbles-game-io = { path = "io" }
 
 [build-dependencies]
-gear-wasm-builder = { git = "https://github.com/gear-tech/gear.git", tag = "v1.4.1" }
+gear-wasm-builder = { git = "https://github.com/gear-tech/gear.git", tag = "v1.7.1" }
 pebbles-game-io = { path = "io" }
 
 [dev-dependencies]
-gtest = { git = "https://github.com/gear-tech/gear.git", tag = "v1.4.1" }
+gtest = { git = "https://github.com/gear-tech/gear.git", tag = "v1.7.1" }
 pebbles-game-io = { path = "io" }
