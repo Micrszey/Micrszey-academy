@@ -1,12 +1,14 @@
 #![no_std]
 
-use gstd::{msg, exec, debug};
+use gstd::{debug, exec, msg};
 use pebbles_game_io::*;
 
 static mut GAME_CONTEXT: Option<GameState> = None;
 
 #[cfg(test)]
-fn get_random_u32() -> u32 { 2 }
+fn get_random_u32() -> u32 {
+    2
+}
 
 #[cfg(not(test))]
 fn get_random_u32() -> u32 {
@@ -16,7 +18,11 @@ fn get_random_u32() -> u32 {
 }
 
 fn coin_flip() -> Player {
-    if get_random_u32() % 2 == 0 { Player::Program } else { Player::User }
+    if get_random_u32() % 2 == 0 {
+        Player::Program
+    } else {
+        Player::User
+    }
 }
 
 fn ai_strategy(state: &GameState) -> u32 {
@@ -25,8 +31,12 @@ fn ai_strategy(state: &GameState) -> u32 {
         DifficultyLevel::Easy => get_random_u32() % max + 1,
         DifficultyLevel::Hard => {
             let optimal = state.pebbles_remaining % (max + 1);
-            if optimal == 0 { 1 } else { optimal }
-        },
+            if optimal == 0 {
+                1
+            } else {
+                optimal
+            }
+        }
     }
 }
 
@@ -83,7 +93,9 @@ extern "C" fn init() {
     let config: PebblesInit = msg::load().expect("Failed to decode init config");
     debug!("Game initialization: {:?}", config);
     let state = initialize_game(config);
-    unsafe { GAME_CONTEXT = Some(state); }
+    unsafe {
+        GAME_CONTEXT = Some(state);
+    }
 }
 
 #[no_mangle]
@@ -96,11 +108,19 @@ extern "C" fn handle() {
         PebblesAction::GiveUp => {
             state.winner = Some(Player::Program);
             PebblesEvent::Won(Player::Program)
-        },
-        PebblesAction::Restart { difficulty, pebbles_count, max_pebbles_per_turn } => {
-            *state = initialize_game(PebblesInit { difficulty, pebbles_count, max_pebbles_per_turn });
+        }
+        PebblesAction::Restart {
+            difficulty,
+            pebbles_count,
+            max_pebbles_per_turn,
+        } => {
+            *state = initialize_game(PebblesInit {
+                difficulty,
+                pebbles_count,
+                max_pebbles_per_turn,
+            });
             return;
-        },
+        }
     };
     msg::reply(event, 0).expect("Failed to send game event");
 }
